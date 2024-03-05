@@ -4,7 +4,7 @@
 This project contains both Server & Client Side of a Library management application exclusively for the Librarian. Built from scratch using React JS for frontend, Flask for backend , Mongo DB for database and also made use of Frappe API in order to get Books for the library.
 
 
-## Setting up the repository
+## Running the project
 
 Create or locate the folder where you will be clonning the repository & open terminal there
 
