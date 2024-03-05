@@ -33,6 +33,7 @@ For Client Side: Locate and install all required packages in order to run the fr
 Now that both client and server is running. Open your "localhost" by default it is "http://localhost:5173/"
 
 ### Project Screenshots are also attached with the repository
+Considering this being a one day project it might lag in some areas
 
 
     
