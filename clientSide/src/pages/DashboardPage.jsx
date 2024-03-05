@@ -1,6 +1,5 @@
 import {
   Button,
-  Spinner,
   Table,
   TableBody,
   TableCell,
@@ -68,52 +67,38 @@ const transactionColumns = [
 
 const DashboardPage = () => {
   const [members, setMembers] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
   const [activeDebts, setActiveDebts] = useState([]);
   const [transactions, setTransactions] = useState([]);
   const [activeBorrows, setActiveBorrows] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
-    setLoading(true);
     axios
       .get("http://localhost:5000/members")
       .then((response) => {
-        // Handle the successful response
         setMembers(response.data);
       })
       .catch((error) => {
-        // Handle any errors that occurred during the request
-        setError(error);
-      })
-      .finally(() => {
-        setLoading(false);
+        alert("Error fetching members", error);
       });
+      
     axios
       .get("http://localhost:5000/transactions")
       .then((response) => {
         setTransactions(response.data);
-        setLoading(false);
       })
       .catch((error) => {
-        // Handle any errors that occurred during the request
-        setError(error);
-        setLoading(false);
+        alert("Error fetching transactions", error);
       });
   }, []);
 
   useEffect(() => {
-    setLoading(true);
     setActiveDebts(members.filter((member) => member.debt > 0));
     setActiveBorrows(members.filter((member) => member.borrowed_title !== ""));
-    setLoading(false);
   }, [members]);
 
   return (
     <>
-    {error && <p>Error: {error.message}</p>}
-
       <div className="flex flex-col gap-y-8">
         <div className="flex justify-between items-center">
           <p className="text-2xl font-medium">Librarian</p>
@@ -144,39 +129,46 @@ const DashboardPage = () => {
           </div>
         </div>
         <div className="flex justify-between gap-6 items-start">
-          <Table aria-label="Example table with dynamic content">
-            <TableHeader columns={borrowedColumns}>
-              {(column) => (
-                <TableColumn key={column.key}>{column.label}</TableColumn>
-              )}
-            </TableHeader>
-            <TableBody items={activeBorrows}>
-              {(item) => (
-                <TableRow key={item.username}>
-                  {(columnKey) => (
-                    <TableCell>{getKeyValue(item, columnKey)}</TableCell>
-                  )}
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
-          <Table aria-label="Example table with dynamic content">
-            <TableHeader columns={debtColumns}>
-              {(column) => (
-                <TableColumn key={column.key}>{column.label}</TableColumn>
-              )}
-            </TableHeader>
-            <TableBody items={activeDebts}>
-              {(item) => (
-                <TableRow key={item.username}>
-                  {(columnKey) => (
-                    <TableCell>{getKeyValue(item, columnKey)}</TableCell>
-                  )}
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
+          <div className="w-full">
+            <p className="text-md font-medium my-6">Active Borrows</p>
+            <Table aria-label="Example table with dynamic content">
+              <TableHeader columns={borrowedColumns}>
+                {(column) => (
+                  <TableColumn key={column.key}>{column.label}</TableColumn>
+                )}
+              </TableHeader>
+              <TableBody items={activeBorrows}>
+                {(item) => (
+                  <TableRow key={item.username}>
+                    {(columnKey) => (
+                      <TableCell>{getKeyValue(item, columnKey)}</TableCell>
+                    )}
+                  </TableRow>
+                )}
+              </TableBody>
+            </Table>
+          </div>
+          <div className="w-full">
+            <p className="text-md font-medium my-6">Remainig Debts</p>
+            <Table aria-label="Example table with dynamic content">
+              <TableHeader columns={debtColumns}>
+                {(column) => (
+                  <TableColumn key={column.key}>{column.label}</TableColumn>
+                )}
+              </TableHeader>
+              <TableBody items={activeDebts}>
+                {(item) => (
+                  <TableRow key={item.username}>
+                    {(columnKey) => (
+                      <TableCell>{getKeyValue(item, columnKey)}</TableCell>
+                    )}
+                  </TableRow>
+                )}
+              </TableBody>
+            </Table>
+          </div>
         </div>
+        <p className="text-md font-medium">Transactions</p>
         <Table aria-label="Example table with dynamic content">
           <TableHeader columns={transactionColumns}>
             {(column) => (

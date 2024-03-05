@@ -16,10 +16,11 @@ const EditMemberPage = () => {
     axios
       .delete(`http://localhost:5000/members/${selectedMember.username}`)
       .then((response) => {
+        alert("Member deleted successfully");
         navigate("/members");
       })
       .catch((error) => {
-        console.error("Error deleting member:", error);
+        alert("Error deleting member:", error);
       });
   };
   const onSubmit = () => {
@@ -30,10 +31,11 @@ const EditMemberPage = () => {
         debt: debt,
       })
       .then((response) => {
+        alert("Member updated successfully");
         navigate("/members");
       })
       .catch((error) => {
-        console.error("Error editing member:", error);
+        alert("Error updating member:", error);
       });
   };
   return (
@@ -65,7 +67,7 @@ const EditMemberPage = () => {
         </Button>
       </div>
       <div className="flex flex-row gap-6 justify-end items-center my-24">
-      <p className="text-xl font-medium">Delete Member</p>
+        <p className="text-xl font-medium">Delete Member</p>
         <Button color="danger" variant="ghost" onPress={handleDelete}>
           Delete
         </Button>

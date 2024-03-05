@@ -1,6 +1,6 @@
 import { Button, Input, Select, SelectItem } from "@nextui-org/react";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 const PaymentPage = () => {
@@ -9,12 +9,11 @@ const PaymentPage = () => {
   const [selectedMember, setSelectedMember] = useState(null);
   const [debt, setDebt] = useState(null);
   const [pay, setPay] = useState("");
-  const [borrowingStatus, setBorrowingStatus] = useState(null);
   const navigate = useNavigate();
 
   const handleReturn = () => {
     if (!selectedMember || !pay) {
-      setBorrowingStatus("Please select member and book");
+      alert("Please select member and pay");
       return;
     }
     axios
@@ -23,15 +22,14 @@ const PaymentPage = () => {
         payment: pay,
       })
       .then((response) => {
-        setBorrowingStatus("Book Returned successfully");
         setSelectedMember("");
         setPay("");
         setDebt("");
+        alert("Book Returned successfully");
         navigate("/");
       })
       .catch((error) => {
-        console.error("Error borrowing book:", error);
-        setBorrowingStatus("Error borrowing book. Please try again later.");
+        alert("Error borrowing book. Please try again later", error);
       });
   };
 
@@ -60,10 +58,9 @@ const PaymentPage = () => {
         </Select>
         <p className="text-xl font-semibold text-nowrap">Total Debt: </p>
         <p className="text-xl font-semibold text-danger">{debt}</p>
-        
       </div>
       <div className="flex flex-col gap-3 justify-center item-center my-8">
-      <Input
+        <Input
           isRequired
           type="number"
           label="Pay"
@@ -72,7 +69,9 @@ const PaymentPage = () => {
         />
       </div>
       <div className="flex justify-center item-center">
-      <Button  color="secondary" className="w-[20vw]"  onPress={handleReturn}>Pay Money</Button>
+        <Button color="secondary" className="w-[20vw]" onPress={handleReturn}>
+          Pay Money
+        </Button>
       </div>
     </>
   );

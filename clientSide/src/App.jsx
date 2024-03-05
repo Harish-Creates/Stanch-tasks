@@ -14,7 +14,7 @@ function App() {
   return (
     <>
       <Nav />
-      <div className="max-sm:mx-5 sm:mx-8 md:mx-[6rem] lg:mx-[10rem] mt-6">
+      <div className="max-sm:mx-5 sm:mx-8 md:mx-[6rem] lg:mx-[10rem] mb-16 mt-6">
         <Routes>
           <Route path="/" element={<DashboardPage />} />
           <Route path="/books" element={<BooksPage />} />

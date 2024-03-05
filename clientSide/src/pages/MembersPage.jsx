@@ -38,18 +38,15 @@ const membersColumn = [
 const MembersPage = () => {
   const [members, setMembers] = useState([]);
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+
   useEffect(() => {
     axios
       .get("http://localhost:5000/members")
       .then((response) => {
         setMembers(response.data);
-        setLoading(false);
       })
       .catch((error) => {
-        setError(error);
-        setLoading(false);
+        alert("Error fetching members", error);
       });
   }, []);
 
@@ -57,7 +54,9 @@ const MembersPage = () => {
     <>
       <div className="flex justify-between items-center my-10 ">
         <p className="text-2xl font-medium">Members Page</p>
-        <Button color="primary" onClick={() => navigate("/create")}>Create Member</Button>
+        <Button color="primary" onClick={() => navigate("/create")}>
+          Create Member
+        </Button>
       </div>
       <Table aria-label="Example table with dynamic content">
         <TableHeader columns={membersColumn}>

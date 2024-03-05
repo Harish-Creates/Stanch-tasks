@@ -83,8 +83,9 @@ const BooksPage = () => {
         },
       })
       .then((response) => {
-        console.log(response.data.message);
         setSearchResults(response.data.message);
+      }).catch((error) => {
+        alert("Error fetching books", error);
       });
   }, [title, page, author]);
   return (

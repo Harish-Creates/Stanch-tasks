@@ -1,28 +1,18 @@
-import {
-  Autocomplete,
-  AutocompleteItem,
-  Button,
-  Input,
-  Select,
-  SelectItem,
-} from "@nextui-org/react";
+import { Button, Select, SelectItem } from "@nextui-org/react";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 const ReturnPage = () => {
   const location = useLocation();
   const activeBorrows = location.state;
-  const [books, setBooks] = useState([]);
-  const [availableBooks, setAvailableBooks] = useState([]);
   const [selectedMember, setSelectedMember] = useState(null);
   const [selectedBook, setSelectedBook] = useState(null);
-  const [borrowingStatus, setBorrowingStatus] = useState(null);
   const navigate = useNavigate();
 
   const handleReturn = () => {
     if (!selectedMember || !selectedBook) {
-      setBorrowingStatus("Please select member and book");
+      alert("Please select member and book");
       return;
     }
     axios
@@ -31,14 +21,13 @@ const ReturnPage = () => {
         borrowed_title: selectedBook,
       })
       .then((response) => {
-        setBorrowingStatus("Book Returned successfully");
         setSelectedMember("");
         setSelectedBook("");
+        alert("Book Returned successfully");
         navigate("/");
       })
       .catch((error) => {
-        console.error("Error borrowing book:", error);
-        setBorrowingStatus("Error borrowing book. Please try again later.");
+        alert("Error borrowing book. Please try again later", error);
       });
   };
 
@@ -74,7 +63,9 @@ const ReturnPage = () => {
         <p className="text-md font-semibold text-secondary">{selectedBook}</p>
       </div>
       <div className="flex justify-center item-center">
-      <Button className="w-[20vw]" color="secondary" onPress={handleReturn}>Return Book</Button>
+        <Button className="w-[20vw]" color="secondary" onPress={handleReturn}>
+          Return Book
+        </Button>
       </div>
     </>
   );

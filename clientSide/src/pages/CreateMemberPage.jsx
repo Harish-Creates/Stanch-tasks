@@ -1,6 +1,6 @@
 import { Button, Input } from "@nextui-org/react";
 import axios from "axios";
-import React, { useState } from "react";
+import  { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const CreateMemberPage = () => {
@@ -22,7 +22,7 @@ const CreateMemberPage = () => {
         navigate("/members");
       })
       .catch((error) => {
-        alert("Error creating member");
+        alert("Error creating member", error);
       });
   };
 
